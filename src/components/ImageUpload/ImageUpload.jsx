@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import {useEffect, useRef, useState} from 'react'
 import './ImageUpload.css'
 
 function ImageUpload({ onImageSelect }) {
@@ -53,10 +53,7 @@ function ImageUpload({ onImageSelect }) {
         video: { facingMode: 'user' } 
       })
       streamRef.current = stream
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream
         setShowWebcam(true)
-      }
     } catch (error) {
       console.error('Error accessing webcam:', error)
       alert('Impossible d\'accéder à la webcam. Veuillez vérifier les permissions.')
@@ -96,6 +93,13 @@ function ImageUpload({ onImageSelect }) {
       fileInputRef.current.value = ''
     }
   }
+
+  useEffect(() => {
+    // Ce code s'exécute quand showWebcam change ET que la vidéo est montée
+    if (showWebcam && videoRef.current && streamRef.current) {
+      videoRef.current.srcObject = streamRef.current
+    }
+  }, [showWebcam])
 
   return (
     <div className="image-upload-container">
