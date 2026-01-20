@@ -1,0 +1,166 @@
+.image-upload-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.upload-area {
+  border: 3px dashed #4d4d4f;
+  border-radius: 12px;
+  padding: 60px 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #40414f;
+}
+
+.upload-area:hover {
+  border-color: #10a37f;
+  background-color: #4a4b59;
+}
+
+.upload-area.dragging {
+  border-color: #10a37f;
+  background-color: #4a4b59;
+  transform: scale(1.02);
+}
+
+.upload-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.upload-text {
+  font-size: 18px;
+  color: #ececf1;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.upload-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.upload-btn {
+  padding: 14px 28px;
+  background-color: #10a37f;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.upload-btn:hover {
+  background-color: #0d8f6e;
+}
+
+.webcam-btn {
+  background-color: #565869;
+}
+
+.webcam-btn:hover {
+  background-color: #6a6b7d;
+}
+
+.webcam-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.webcam-content {
+  position: relative;
+  background-color: #202123;
+  padding: 24px;
+  border-radius: 12px;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.webcam-video {
+  width: 100%;
+  max-width: 640px;
+  border-radius: 8px;
+  background-color: #000;
+}
+
+.webcam-controls {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.capture-btn,
+.cancel-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.capture-btn {
+  background-color: #10a37f;
+  color: white;
+}
+
+.capture-btn:hover {
+  background-color: #0d8f6e;
+}
+
+.cancel-btn {
+  background-color: #565869;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #6a6b7d;
+}
+
+.image-preview-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.image-preview {
+  max-width: 100%;
+  max-height: 500px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.remove-btn {
+  padding: 12px 24px;
+  background-color: #dc3545;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.remove-btn:hover {
+  background-color: #c82333;
+}
+
