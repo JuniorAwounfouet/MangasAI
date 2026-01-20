@@ -1,0 +1,25 @@
+.back-btn {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto 0;
+  padding: 18px 32px;
+  background-color: #565869;
+  border: none;
+  color: white;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  transition: all 0.2s;
+  display: block;
+}
+
+.back-btn:hover {
+  background-color: #3d3f4d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(86, 88, 105, 0.4);
+}
+
+.back-btn:active {
+  transform: translateY(0);
+}
