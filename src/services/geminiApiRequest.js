@@ -12,6 +12,7 @@ async function generateGeminiImageFromPrompt(style, ImageDescription) {
         const response = await ai.models.generateImages({
             model: 'imagen-4.0-generate-001',
             prompt: `${style}. ${ImageDescription}`,
+            
             config: {
                 numberOfImages: 1,
             },
@@ -22,8 +23,32 @@ async function generateGeminiImageFromPrompt(style, ImageDescription) {
         console.error("Error generating Gemini image:", error);
         throw error;
     }
-
-
 }
 
-export { generateGeminiImageFromPrompt };
+async function editGeminiImageFromPrompt(imageBase64, editPrompt) {
+
+    try {
+        // 1. Ensure you use 'await' as these are network requests
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash-image',
+            contents: [
+                {
+                    inlineData: {
+                        data: imageBase64, // Must be a base64 string
+                        mimeType: 'image/png'      // Specify the format
+                    }
+                },
+                { text: editPrompt }
+            ],
+            config: { responseModalities: ["IMAGE"] }
+        });
+        console.log("Gemini Edit Response:", response);
+        return response.candidates[0].content.parts[0].inlineData.data;
+    }
+    catch (error) {
+        console.error("Error editing Gemini image:", error);
+        throw error;
+    }
+}
+
+export { generateGeminiImageFromPrompt, editGeminiImageFromPrompt };

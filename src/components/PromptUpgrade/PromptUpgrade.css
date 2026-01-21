@@ -1,0 +1,40 @@
+.prompt-upgrade {
+  margin-top: 24px;
+}
+
+.prompt-upgrade__header {
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.prompt-upgrade__controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.prompt-upgrade__input {
+  flex: 1;
+  min-width: 220px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid #2e2f3a;
+  background: #1b1c27;
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.prompt-upgrade__input:focus {
+  border-color: #10a37f;
+  box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.15);
+}
+
+.prompt-upgrade__button {
+  margin: 0;
+  width: auto;
+  white-space: nowrap;
+}
