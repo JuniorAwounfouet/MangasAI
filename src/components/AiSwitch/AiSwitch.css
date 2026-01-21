@@ -1,0 +1,47 @@
+.ai-switch {
+  margin: 12px 0 8px;
+  color: #fff;
+}
+
+.ai-switch__buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ai-switch__btn {
+  flex: 1;
+  min-width: 140px;
+  padding: 14px 18px;
+  background-color: #565869;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(86, 88, 105, 0.3);
+}
+
+.ai-switch__btn:hover {
+  background-color: #3d3f4d;
+  transform: translateY(-2px);
+}
+
+.ai-switch__btn.is-active {
+  background-color: #10a37f;
+  box-shadow: 0 6px 14px rgba(16, 163, 127, 0.35);
+  transform: translateY(-2px);
+}
+
+.ai-switch__btn:active {
+  transform: translateY(0);
+}
+
+.ai-switch__hint {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #ececf1;
+  text-align: center;
+}

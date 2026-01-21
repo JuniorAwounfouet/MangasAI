@@ -25,6 +25,8 @@ async function getImageDescription(base64Image) {
 
 
 async function generateMistralImageFromPrompt(style, ImageDescription) {
+    console.log("Generating image with Mistral ...");
+
     let imageAgent = await client.beta.agents.create({
         model: "mistral-medium-2505",
         name: "Image Generation Agent",

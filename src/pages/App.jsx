@@ -5,18 +5,25 @@ import ImageUpload from '../components/ImageUpload/ImageUpload'
 import StyleSelector from '../components/StyleSelector/StyleSelector'
 import GenerateButton from '../components/GenerateButton/GenerateButton'
 import BackButton from '../components/BackButton/BackButton'
+import PromptUpgrade from '../components/PromptUpgrade/PromptUpgrade'
+import DownloadButton from '../components/DownloadButton/DownloadButton'
 import './App.css'
-import {  generateMistralImageFromPrompt, getImageDescription } from '../services/mistralApiRequest'
-import { generateGeminiImageFromPrompt } from '../services/geminiApiRequest'
+import { getImageDescription, generateMistralImageFromPrompt } from '../services/mistralApiRequest'
+import { editGeminiImageFromPrompt, generateGeminiImageFromPrompt } from '../services/geminiApiRequest'
 import { getStyleImage } from '../services/imageService'
+import Spinner from '../components/Spinner/Spinner'
+import AiSwitch from '../components/AiSwitch/AiSwitch'
 
 function App() {
   const [selectedImage, setSelectedImage] = useState(null)
   const [selectedStyle, setSelectedStyle] = useState(null)
   const [showResults, setShowResults] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [editIsLoading, setEditIsLoading] = useState(false)
   const [error, setError] = useState(null)
   const [generatedImageBase64, setGeneratedImageBase64] = useState(null)
+  const [upgradePrompt, setUpgradePrompt] = useState('')
+  const [aiProvider, setAiProvider] = useState('gemini')
 
   const handleImageSelect = (image) => {
     setSelectedImage(image)
@@ -30,8 +37,10 @@ function App() {
     if (selectedImage && selectedStyle) {
       console.log('Génération de l\'image avec le style:', selectedStyle)
 
-    
+
       setShowResults(true);
+      setError(null);
+      setUpgradePrompt('');
       generateImage();
     }
   }
@@ -43,11 +52,13 @@ function App() {
       if (imageDescription) {
         console.log('Description de l\'image:', imageDescription)
         const style = await getStyleImage(selectedStyle);
-        const generatedImageBase64 = await generateGeminiImageFromPrompt(style, imageDescription)
+        const generatedImageBase64 = aiProvider === 'mistral'
+          ? await generateMistralImageFromPrompt(style, imageDescription)
+          : await generateGeminiImageFromPrompt(style, imageDescription)
         setGeneratedImageBase64(generatedImageBase64);
         setIsLoading(false);
         console.log('Image générée avec succès.')
-        
+
       }
     } catch (error) {
       setIsLoading(false);
@@ -56,6 +67,24 @@ function App() {
     }
 
 
+  }
+
+  const handleUpgrade = async () => {
+    if (!upgradePrompt || !selectedStyle) {
+      return
+    }
+
+    try {
+      setError(null)
+      setEditIsLoading(true)
+      const updatedImageBase64 = await editGeminiImageFromPrompt(generatedImageBase64, upgradePrompt)
+      setGeneratedImageBase64(updatedImageBase64)
+    } catch (error) {
+      setError(error.message)
+      console.error('Erreur lors de l\'amélioration de l\'image:', error)
+    } finally {
+      setEditIsLoading(false)
+    }
   }
 
   return (
@@ -77,42 +106,65 @@ function App() {
                   selectedStyle={selectedStyle}
                   onStyleSelect={handleStyleSelect}
                 />
+                <AiSwitch value={aiProvider} onChange={setAiProvider} />
                 <GenerateButton
                   onGenerate={handleGenerate}
                   disabled={!selectedStyle}
                 />
+
+
 
               </>
             )}
           </>)}
 
           {showResults && (
-            isLoading ? (
-              <div>Ok c'est parti ! Patiente un peu et tu te retrouveras dans ton univers favori.</div>
+
+
+            editIsLoading || isLoading ? (
+              <Spinner
+                label={isLoading
+                  ? "Ok c'est parti ! Patiente un peu et tu te retrouveras dans ton univers favori."
+                  : "Cette fois c'est la bonne, on améliore ton image, merci de patienter..."}
+              />
             ) : (
 
               error ? (<>
                 <div className="error-message">Une erreur est survenue lors de la génération de votre image, veuillez réessayer.</div>
-                <BackButton onBack={() => {setShowResults(false); setError(null); setGeneratedImageBase64(null);}} />
-                </>
+                <BackButton onBack={() => { setShowResults(false); setError(null); setGeneratedImageBase64(null); }} />
+              </>
               ) : (
-              <>
-                <div>
-                  <h2>Résultats de la Génération</h2>
-                  <div className="results-section">
-                    <div className="generated-image-container">
-                      <h3>Image Générée:</h3>
-                      <img src={`data:image/png;base64,${generatedImageBase64}`} alt="Generated" className="generated-image" />
+                <>
+                  <div>
+                    <h2>Résultats de la Génération</h2>
+                    <div className="results-section">
+                      <div className="generated-image-container">
+                        <h3>Image Générée:</h3>
+                        <img src={`data:image/png;base64,${generatedImageBase64}`} alt="Generated" className="generated-image" />
+                      </div>
+
+
+
+                      <PromptUpgrade
+                        value={upgradePrompt}
+                        onChange={setUpgradePrompt}
+                        onSubmit={handleUpgrade}
+                        disabled={!upgradePrompt || isLoading}
+                      />
+                      <DownloadButton
+                        imageBase64={generatedImageBase64}
+                        disabled={!generatedImageBase64 || isLoading}
+                      />
+
                     </div>
                   </div>
-                </div>
-                <BackButton onBack={() => {setShowResults(false); setError(null); setGeneratedImageBase64(null);}} />
-              </>
-            ))
+                  <BackButton onBack={() => { setShowResults(false); setError(null); setGeneratedImageBase64(null); }} />
+                </>
+              ))
           )}
         </div>
       </div>
-        <Footer />
+      <Footer />
     </div>
   )
 }
