@@ -42,9 +42,9 @@ jobs:
         env:
           CI: true
 
-      # 6) Deploy to GitHub Pages (main only)
+      # 6) Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/main'
+        # if: github.ref == 'refs/heads/main'
         run: |
           npm install -g gh-pages
-          gh-pages -d build
+          gh-pages -d dist
