@@ -9,6 +9,8 @@ const ai = new GoogleGenAI({
 async function generateGeminiImageFromPrompt(style, ImageDescription) {
 
     try {
+        console.log("Generating image with Gemini ...");
+        
         const response = await ai.models.generateImages({
             model: 'imagen-4.0-generate-001',
             prompt: `${style}. ${ImageDescription}`,

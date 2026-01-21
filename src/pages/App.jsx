@@ -8,10 +8,11 @@ import BackButton from '../components/BackButton/BackButton'
 import PromptUpgrade from '../components/PromptUpgrade/PromptUpgrade'
 import DownloadButton from '../components/DownloadButton/DownloadButton'
 import './App.css'
-import { getImageDescription } from '../services/mistralApiRequest'
+import { getImageDescription, generateMistralImageFromPrompt } from '../services/mistralApiRequest'
 import { editGeminiImageFromPrompt, generateGeminiImageFromPrompt } from '../services/geminiApiRequest'
 import { getStyleImage } from '../services/imageService'
 import Spinner from '../components/Spinner/Spinner'
+import AiSwitch from '../components/AiSwitch/AiSwitch'
 
 function App() {
   const [selectedImage, setSelectedImage] = useState(null)
@@ -22,6 +23,7 @@ function App() {
   const [error, setError] = useState(null)
   const [generatedImageBase64, setGeneratedImageBase64] = useState(null)
   const [upgradePrompt, setUpgradePrompt] = useState('')
+  const [aiProvider, setAiProvider] = useState('gemini')
 
   const handleImageSelect = (image) => {
     setSelectedImage(image)
@@ -50,7 +52,9 @@ function App() {
       if (imageDescription) {
         console.log('Description de l\'image:', imageDescription)
         const style = await getStyleImage(selectedStyle);
-        const generatedImageBase64 = await generateGeminiImageFromPrompt(style, imageDescription)
+        const generatedImageBase64 = aiProvider === 'mistral'
+          ? await generateMistralImageFromPrompt(style, imageDescription)
+          : await generateGeminiImageFromPrompt(style, imageDescription)
         setGeneratedImageBase64(generatedImageBase64);
         setIsLoading(false);
         console.log('Image générée avec succès.')
@@ -102,12 +106,13 @@ function App() {
                   selectedStyle={selectedStyle}
                   onStyleSelect={handleStyleSelect}
                 />
+                <AiSwitch value={aiProvider} onChange={setAiProvider} />
                 <GenerateButton
                   onGenerate={handleGenerate}
                   disabled={!selectedStyle}
                 />
 
-                   
+
 
               </>
             )}
@@ -117,11 +122,11 @@ function App() {
 
 
             editIsLoading || isLoading ? (
-             <Spinner
-                            label={isLoading
-                              ? "Ok c'est parti ! Patiente un peu et tu te retrouveras dans ton univers favori."
-                              : "Cette fois c'est la bonne, on améliore ton image, merci de patienter..."}
-                          />
+              <Spinner
+                label={isLoading
+                  ? "Ok c'est parti ! Patiente un peu et tu te retrouveras dans ton univers favori."
+                  : "Cette fois c'est la bonne, on améliore ton image, merci de patienter..."}
+              />
             ) : (
 
               error ? (<>
