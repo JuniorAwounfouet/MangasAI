@@ -41,15 +41,10 @@ jobs:
         run: npm run build
         env:
           CI: true
-      
-      - name: Configure git identity
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       # 6) Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         # if: github.ref == 'refs/heads/main'
         run: |
           npm install -g gh-pages
-          gh-pages -d dist
+          gh-pages -d dist -t ${{ secrets.GITHUB_TOKEN }}
