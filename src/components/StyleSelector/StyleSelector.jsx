@@ -1,34 +1,39 @@
 import './StyleSelector.css'
+import cyberpunkLogo from '../../assets/cyberpunkLogo.png'
+import jojoLogo from '../../assets/jojoLogo.png'
+import onePieceLogo from '../../assets/onepieceLogo.png'
+import southParkLogo from '../../assets/southparkLogo.png'
+import narutoLogo from '../../assets/narutoLogo.png'
 
 const STYLES = [
   {
     id: 'cyberpunk',
     name: 'Cyberpunk',
-    emoji: '🤖',
+    logo: cyberpunkLogo,
     color: '#00f5ff'
   },
   {
     id: 'jojo',
     name: 'Jojo\'s Bizarre',
-    emoji: '💪',
+    logo: jojoLogo,
     color: '#ff6b00'
   },
   {
     id: 'onepiece',
     name: 'One Piece',
-    emoji: '🏴‍☠️',
+    logo: onePieceLogo,
     color: '#ffd700'
   },
   {
     id: 'naruto',
     name: 'Naruto',
-    emoji: '🍜',
+    logo: narutoLogo,
     color: '#ff8c00'
   },
   {
     id: 'southpark',
     name: 'South Park',
-    emoji: '🧒',
+    logo: southParkLogo,
     color: '#32cd32'
   }
 ]
@@ -48,7 +53,9 @@ function StyleSelector({ selectedStyle, onStyleSelect }) {
               boxShadow: selectedStyle === style.id ? `0 0 20px ${style.color}40` : 'none'
             }}
           >
-            <div className="style-emoji">{style.emoji}</div>
+            <div>
+              <img src={style.logo} className="style-logo" alt="Logo" />
+            </div>
             <div className="style-name">{style.name}</div>
           </button>
         ))}
