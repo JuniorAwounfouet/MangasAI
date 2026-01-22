@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 
-
+/*
 const ai = new GoogleGenAI({
     apiKey: import.meta.env.VITE_GEMINI_API_KEY
 });
@@ -31,7 +31,8 @@ async function generateGeminiImageFromPrompt(style, ImageDescription) {
 async function generateGeminiImageFromPrompt(style, ImageDescription) {
     try {
         console.log("Generating image with Gemini ...");
-        const response = await fetch("https://localhost:7175/api/Gemini/generate-image", {
+      
+        const response = await fetch("https://manga-ai.azurewebsites.net/api/Gemini/generate-image", {
             method: 'POST',
             body: JSON.stringify({
                 prompt: `${style}. ${ImageDescription}`
@@ -41,7 +42,10 @@ async function generateGeminiImageFromPrompt(style, ImageDescription) {
             }
         });
         console.log(response)
-        return response.data.generatedImage; // Assuming the API returns the base64 image string in this field
+        const data = await response.json();
+
+        // ⬇️ Return Base64 string
+        return data.imageBase64; // Assuming the API returns the base64 image string in this field
         
         }
     catch (error) {
@@ -49,23 +53,27 @@ async function generateGeminiImageFromPrompt(style, ImageDescription) {
         throw error;
     }
 }
-/*
+
 async function editGeminiImageFromPrompt(imageBase64, editPrompt) {
 
     try {
         // 1. Ensure you use 'await' as these are network requests
-        const response = await fetch("https://localhost:7175/api/Gemini/generate-image", {
+        const response = await fetch("https://manga-ai.azurewebsites.net/api/Gemini/edit-image", {
             method: 'POST',
             body: JSON.stringify({
-                prompt: editPrompt,
-                base64Image: imageBase64
+                editPrompt: editPrompt,
+                imageBase64: imageBase64
             }),
             headers: {
                 'Content-Type': 'application/json'
             }
         });
         console.log("Gemini Edit Response:", response);
-        return response.candidates[0].content.parts[0].inlineData.data;
+         const data = await response.json();
+
+        // ⬇️ Return Base64 string
+        return data.imageBase64;
+        
     }
     catch (error) {
         console.error("Error editing Gemini image:", error);
@@ -73,7 +81,7 @@ async function editGeminiImageFromPrompt(imageBase64, editPrompt) {
     }
 }
 
-*/
+/*
 async function editGeminiImageFromPrompt(imageBase64, editPrompt) {
 
     try {
