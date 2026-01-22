@@ -6,7 +6,7 @@ import Appp from "./pages/App.jsx";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename='/MangasAI'>
       <Routes>
         <Route path="/" element={<Appp />} />
       </Routes>

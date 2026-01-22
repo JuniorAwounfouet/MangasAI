@@ -16,10 +16,7 @@ Cyberpunk
 
 # Installation 
 
-En local, tu peux lancer le projet grâce à ces commandes 
+Pas d'installation nécessaire, clique juste sur ce lien 
 
-```
-npm install 
-npm start
-```
+https://juniorawounfouet.github.io/MangasAI/
 

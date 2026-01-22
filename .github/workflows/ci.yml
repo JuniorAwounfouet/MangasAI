@@ -1,0 +1,58 @@
+name: CI/CD React → GitHub Pages
+
+on:
+  push:
+    # branches:
+    #   - dev
+    #   - preprod
+    #   - main
+
+permissions:
+  contents: write
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Checkout
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2) Setup Node.js
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      # 3) Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # # 4) Run tests
+      # - name: Run tests
+      #   run: npm test -- --watch=false
+      #   env:
+      #     CI: true
+
+      # 5) Build React app
+      - name: Build React
+        run: npm run build
+        env:
+          CI: true
+          VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
+          VITE_MISTRAL_API_KEY_1: ${{ secrets.VITE_MISTRAL_API_KEY_1 }}
+          VITE_MISTRAL_API_KEY_2: ${{ secrets.VITE_MISTRAL_API_KEY_2 }}
+
+      # 6) Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+      # - name: Deploy to GitHub Pages
+      #   # if: github.ref == 'refs/heads/main'
+      #   run: |
+      #     npm install -g gh-pages
+      #     gh-pages -d dist -t ${{ secrets.GITHUB_TOKEN }}
