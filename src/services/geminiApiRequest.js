@@ -5,7 +5,7 @@ const ai = new GoogleGenAI({
     apiKey: import.meta.env.VITE_GEMINI_API_KEY
 });
 
-
+/*
 async function generateGeminiImageFromPrompt(style, ImageDescription) {
 
     try {
@@ -26,7 +26,8 @@ async function generateGeminiImageFromPrompt(style, ImageDescription) {
         throw error;
     }
 }
-/*
+    */
+
 async function generateGeminiImageFromPrompt(style, ImageDescription) {
     try {
         console.log("Generating image with Gemini ...");
@@ -48,6 +49,30 @@ async function generateGeminiImageFromPrompt(style, ImageDescription) {
         throw error;
     }
 }
+/*
+async function editGeminiImageFromPrompt(imageBase64, editPrompt) {
+
+    try {
+        // 1. Ensure you use 'await' as these are network requests
+        const response = await fetch("https://localhost:7175/api/Gemini/generate-image", {
+            method: 'POST',
+            body: JSON.stringify({
+                prompt: editPrompt,
+                base64Image: imageBase64
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log("Gemini Edit Response:", response);
+        return response.candidates[0].content.parts[0].inlineData.data;
+    }
+    catch (error) {
+        console.error("Error editing Gemini image:", error);
+        throw error;
+    }
+}
+
 */
 async function editGeminiImageFromPrompt(imageBase64, editPrompt) {
 
@@ -74,5 +99,5 @@ async function editGeminiImageFromPrompt(imageBase64, editPrompt) {
         throw error;
     }
 }
-
+ */
 export { generateGeminiImageFromPrompt, editGeminiImageFromPrompt };
