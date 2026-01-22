@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Header from '../components/header'
 import Footer from '../components/Footer'
 import ImageUpload from '../components/ImageUpload/ImageUpload'
@@ -24,6 +24,11 @@ function App() {
   const [generatedImageBase64, setGeneratedImageBase64] = useState(null)
   const [upgradePrompt, setUpgradePrompt] = useState('')
   const [aiProvider, setAiProvider] = useState('gemini')
+
+  useEffect(() => {
+    console.log(import.meta.env.VITE_API_KEY);
+    console.log(import.meta.env.VITE_API_URL);
+  }, [])
 
   const handleImageSelect = (image) => {
     setSelectedImage(image)

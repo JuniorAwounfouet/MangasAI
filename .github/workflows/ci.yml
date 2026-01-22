@@ -41,6 +41,9 @@ jobs:
         run: npm run build
         env:
           CI: true
+          VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
+          VITE_MISTRAL_API_KEY_1: ${{ secrets.VITE_MISTRAL_API_KEY_1 }}
+          VITE_MISTRAL_API_KEY_2: ${{ secrets.VITE_MISTRAL_API_KEY_2 }}
 
       # 6) Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
