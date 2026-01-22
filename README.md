@@ -15,11 +15,15 @@ Cyberpunk
 ![alt text](image-2.png)
 
 # Installation 
+Version de node utilisé : 22.14.0
 
-En local, tu peux lancer le projet grâce à ces commandes 
+Pour installer et lancer localement le projet 
+```
+npm i 
+npm run dev
+```
 
-```
-npm install 
-npm start
-```
+# Site Déployé
+
+https://juniorawounfouet.github.io/MangasAI/
 

@@ -9,9 +9,14 @@ function ImageUpload({ onImageSelect }) {
   const canvasRef = useRef(null)
   const [showWebcam, setShowWebcam] = useState(false)
   const streamRef = useRef(null)
-
+const ALLOWED_TYPES = ['image/jpeg', 'image/png']
+  
   const handleFile = (file) => {
-    if (file && file.type.startsWith('image/')) {
+    if (!ALLOWED_TYPES.includes(file.type)) {
+    alert('Seules les images JPEG ou PNG sont autorisées.')
+    return
+    }
+    if (file) {
       const reader = new FileReader()
       reader.onloadend = () => {
         setPreview(reader.result)
@@ -120,7 +125,7 @@ function ImageUpload({ onImageSelect }) {
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png"
               onChange={handleFileInput}
               style={{ display: 'none' }}
             />
